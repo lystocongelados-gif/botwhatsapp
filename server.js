@@ -43,7 +43,7 @@ Nombres de productos (usalos EXACTAMENTE así en la salida, mapeando sinónimos 
 - "Crocante Premium 8x8mm"
 - "Crocante Premium trad 10x10mm"
 
-BASE DE CLIENTES (para matchear el nombre/alias que aparezca en el mensaje, aunque esté mal escrito o incompleto). Cada cliente tiene "tipo_entrega" por defecto: "flete_interno", "retira_fabrica" o "flete_externo":
+BASE DE CLIENTES (para matchear el nombre/alias que aparezca en el mensaje, aunque esté mal escrito o incompleto). Cada cliente tiene "tipo_entrega" por defecto: "flete_interno", "retira_fabrica" o "flete_externo", y puede tener "calle" (dirección de entrega guardada):
 ${JSON.stringify(clients, null, 2)}
 
 INSTRUCCIONES:
@@ -72,7 +72,7 @@ Si falta un dato imprescindible:
 Si el pedido está completo:
 {
   "estado": "completo",
-  "cliente": {"nombre_detectado": string, "match": string|null, "telefono": string|null, "email": string|null, "confianza": "alta"|"media"|"baja"|"sin_match"},
+  "cliente": {"nombre_detectado": string, "match": string|null, "telefono": string|null, "email": string|null, "calle": string|null, "confianza": "alta"|"media"|"baja"|"sin_match"},
   "lista_precio": string|null,
   "entrega": "flete_interno"|"retira_fabrica"|"flete_externo"|null,
   "items": [{"producto": string, "cantidad": number, "unidad": "cajas"|"unidades de 2.5kg", "precio_unitario": number, "subtotal": number}],
@@ -97,6 +97,7 @@ function buildOrderText(order) {
   if (order.lista_precio) lines.push(`Lista: ${order.lista_precio}`);
   const entregaTxt = entregaLabel(order.entrega);
   if (entregaTxt) lines.push(`Entrega: ${entregaTxt}`);
+  if (order.cliente && order.cliente.calle) lines.push(`Dirección: ${order.cliente.calle}`);
   lines.push('');
   (order.items || []).forEach(it => {
     const unidad = it.unidad === 'cajas' ? 'caja(s)' : 'unidad(es) 2,5kg';

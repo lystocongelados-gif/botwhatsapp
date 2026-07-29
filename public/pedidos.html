@@ -460,6 +460,9 @@
     var entregaTxt = entregaLabel(pedido.entrega);
     if (entregaTxt) metaParts.push('Entrega: ' + escapeHtml(entregaTxt));
     if (metaParts.length) html += '<div class="meta">' + metaParts.join(' · ') + '</div>';
+    if (pedido.cliente && pedido.cliente.calle) {
+      html += '<div class="meta">Dirección: ' + escapeHtml(pedido.cliente.calle) + '</div>';
+    }
 
     html += '<table>';
     (pedido.items || []).forEach(function (it) {
