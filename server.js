@@ -8,7 +8,8 @@ app.use(express.json());
 
 // ---------- Configuración ----------
 const {
-  ANTHROPIC_API_KEY,
+  GEMINI_API_KEY,
+  GEMINI_MODEL = 'gemini-2.0-flash',
   PORT = 3000
 } = process.env;
 
@@ -114,29 +115,37 @@ function buildOrderText(order) {
   return lines.join('\n');
 }
 
-// ---------- Llamada a la API de Claude ----------
-async function askClaude(messages) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+// ---------- Llamada a la API de Gemini (capa gratuita) ----------
+async function askLLM(messages) {
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
+  }));
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+  const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1000,
-      system: buildSystemPrompt(),
-      messages
+      system_instruction: { parts: [{ text: buildSystemPrompt() }] },
+      contents,
+      generationConfig: {
+        maxOutputTokens: 1000,
+        responseMimeType: 'application/json'
+      }
     })
   });
   const data = await response.json();
   if (data.error) {
-    throw new Error(data.error.message || 'Error de la API de Claude');
+    throw new Error(data.error.message || 'Error de la API de Gemini');
   }
-  const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
-  let raw = textBlocks.join('\n').trim();
+  const candidate = data.candidates && data.candidates[0];
+  const parts = (candidate && candidate.content && candidate.content.parts) || [];
+  let raw = parts.map(p => p.text || '').join('\n').trim();
   raw = raw.replace(/^```json/i, '').replace(/^```/, '').replace(/```$/, '').trim();
+  if (!raw) {
+    throw new Error('Respuesta vacía del modelo (posible corte por finishReason: ' + (candidate && candidate.finishReason) + ')');
+  }
   return { parsed: JSON.parse(raw), rawText: raw };
 }
 
@@ -156,7 +165,7 @@ app.post('/api/order', async (req, res) => {
   }
 
   try {
-    const { parsed, rawText } = await askClaude(messages);
+    const { parsed, rawText } = await askLLM(messages);
 
     if (parsed.estado === 'faltan_datos') {
       return res.json({ estado: 'faltan_datos', pregunta: parsed.pregunta, rawText });
