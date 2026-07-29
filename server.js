@@ -47,7 +47,7 @@ BASE DE CLIENTES (para matchear el nombre/alias que aparezca en el mensaje, aunq
 ${JSON.stringify(clients, null, 2)}
 
 INSTRUCCIONES:
-1. Identificá el cliente mencionado en el mensaje y buscá el mejor match en la base (por nombre, apodo, o parte del nombre).
+1. Identificá el cliente mencionado en el mensaje y buscá el mejor match en la base (por nombre, apodo, o parte del nombre). Una vez que lo encontrás, copiá literalmente sus campos "telefono", "email" y "calle" de la base al objeto "cliente" de la salida (si alguno no está guardado, va como null). NUNCA omitas el campo "calle" del JSON de salida: si el cliente lo tiene, va con ese valor; si no lo tiene, va explícitamente como null.
 2. Identificá qué lista de precios corresponde (A = "Gastronomico A", B = "Gastronomico B", C = "Gastronomico C", "mayorista" = "Mayorista", "distribuidor" = "Distribuidor").
 3. Extraé cada producto pedido con su cantidad y calculá el precio unitario y subtotal según la lista.
 4. Sumá el total general.
