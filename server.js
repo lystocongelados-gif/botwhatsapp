@@ -8,8 +8,8 @@ app.use(express.json());
 
 // ---------- Configuración ----------
 const {
-  GEMINI_API_KEY,
-  GEMINI_MODEL = 'gemini-2.0-flash',
+  GROQ_API_KEY,
+  GROQ_MODEL = 'llama-3.3-70b-versatile',
   PORT = 3000
 } = process.env;
 
@@ -115,36 +115,30 @@ function buildOrderText(order) {
   return lines.join('\n');
 }
 
-// ---------- Llamada a la API de Gemini (capa gratuita) ----------
+// ---------- Llamada a la API de Groq (capa gratuita) ----------
 async function askLLM(messages) {
-  const contents = messages.map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }]
-  }));
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-  const response = await fetch(url, {
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${GROQ_API_KEY}`
+    },
     body: JSON.stringify({
-      system_instruction: { parts: [{ text: buildSystemPrompt() }] },
-      contents,
-      generationConfig: {
-        maxOutputTokens: 1000,
-        responseMimeType: 'application/json'
-      }
+      model: GROQ_MODEL,
+      messages: [{ role: 'system', content: buildSystemPrompt() }, ...messages],
+      response_format: { type: 'json_object' },
+      max_tokens: 1000
     })
   });
   const data = await response.json();
   if (data.error) {
-    throw new Error(data.error.message || 'Error de la API de Gemini');
+    throw new Error(data.error.message || 'Error de la API de Groq');
   }
-  const candidate = data.candidates && data.candidates[0];
-  const parts = (candidate && candidate.content && candidate.content.parts) || [];
-  let raw = parts.map(p => p.text || '').join('\n').trim();
+  const choice = data.choices && data.choices[0];
+  let raw = ((choice && choice.message && choice.message.content) || '').trim();
   raw = raw.replace(/^```json/i, '').replace(/^```/, '').replace(/```$/, '').trim();
   if (!raw) {
-    throw new Error('Respuesta vacía del modelo (posible corte por finishReason: ' + (candidate && candidate.finishReason) + ')');
+    throw new Error('Respuesta vacía del modelo (finish_reason: ' + (choice && choice.finish_reason) + ')');
   }
   return { parsed: JSON.parse(raw), rawText: raw };
 }

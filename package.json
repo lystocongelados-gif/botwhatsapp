@@ -1,7 +1,7 @@
 {
   "name": "lysto-pedidos-web",
   "version": "1.0.0",
-  "description": "Página web de armado de pedidos de LYSTO usando la API gratuita de Gemini",
+  "description": "Página web de armado de pedidos de LYSTO usando la API gratuita de Groq",
   "main": "server.js",
   "type": "commonjs",
   "engines": {
