@@ -1,7 +1,7 @@
 {
-  "name": "lysto-whatsapp-bot",
+  "name": "lysto-pedidos-web",
   "version": "1.0.0",
-  "description": "Bot de WhatsApp que ordena pedidos de LYSTO usando la API de Claude",
+  "description": "Página web de armado de pedidos de LYSTO usando la API de Claude",
   "main": "server.js",
   "type": "commonjs",
   "engines": {

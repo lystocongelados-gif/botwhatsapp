@@ -1,0 +1,27 @@
+{
+  "Gastronomico A": {
+    "Clásicas 8x8mm": { "neto_2_5kg": 8950.00, "caja_x6": 53700.00 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 10350.00, "caja_x6": 62100.00 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 10350.00, "caja_x6": 62100.00 }
+  },
+  "Gastronomico B": {
+    "Clásicas 8x8mm": { "neto_2_5kg": 8055.00, "caja_x6": 48330.00 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 9315.00, "caja_x6": 55890.00 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 9315.00, "caja_x6": 55890.00 }
+  },
+  "Gastronomico C": {
+    "Clásicas 8x8mm": { "neto_2_5kg": 7249.50, "caja_x6": 43497.00 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 8383.50, "caja_x6": 50301.00 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 8383.50, "caja_x6": 50301.00 }
+  },
+  "Mayorista": {
+    "Clásicas 8x8mm": { "neto_2_5kg": 6495.55, "caja_x6": 38973.31 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 7511.62, "caja_x6": 45069.70 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 7511.62, "caja_x6": 45069.70 }
+  },
+  "Distribuidor": {
+    "Clásicas 8x8mm": { "neto_2_5kg": 5799.60, "caja_x6": 34797.60 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 }
+  }
+}

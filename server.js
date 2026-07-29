@@ -8,16 +8,12 @@ app.use(express.json());
 
 // ---------- Configuración ----------
 const {
-  WHATSAPP_TOKEN,
-  PHONE_NUMBER_ID,
-  VERIFY_TOKEN,
   ANTHROPIC_API_KEY,
   PORT = 3000
 } = process.env;
 
 const PRICE_LISTS_PATH = path.join(__dirname, 'data', 'priceLists.json');
 const CLIENTS_PATH = path.join(__dirname, 'data', 'clients.json');
-const CONVERSATIONS_PATH = path.join(__dirname, 'data', 'conversations.json');
 
 function loadJson(filePath, fallback) {
   try {
@@ -27,13 +23,8 @@ function loadJson(filePath, fallback) {
   }
 }
 
-function saveJson(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
-let priceLists = loadJson(PRICE_LISTS_PATH, {});
-let clients = loadJson(CLIENTS_PATH, []);
-let conversations = loadJson(CONVERSATIONS_PATH, {}); // { [telefono]: [{role, content}, ...] }
+const priceLists = loadJson(PRICE_LISTS_PATH, {});
+const clients = loadJson(CLIENTS_PATH, []);
 
 // ---------- Prompt del sistema (misma lógica que la versión de chat) ----------
 function buildSystemPrompt() {
@@ -149,88 +140,38 @@ async function askClaude(messages) {
   return { parsed: JSON.parse(raw), rawText: raw };
 }
 
-// ---------- Envío de mensajes por WhatsApp Cloud API ----------
-async function sendWhatsAppMessage(to, text) {
-  const url = `https://graph.facebook.com/v20.0/${PHONE_NUMBER_ID}/messages`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${WHATSAPP_TOKEN}`
-    },
-    body: JSON.stringify({
-      messaging_product: 'whatsapp',
-      to,
-      type: 'text',
-      text: { body: text }
-    })
-  });
-  const data = await res.json();
-  if (data.error) {
-    console.error('Error enviando WhatsApp:', JSON.stringify(data.error));
-  }
-  return data;
-}
+// ---------- Página web /pedidos ----------
+app.use(express.static(path.join(__dirname, 'public')));
 
-// ---------- Webhook: verificación (Meta lo llama por GET al configurar) ----------
-app.get('/webhook', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-
-  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-    console.log('Webhook verificado correctamente');
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
-  }
+app.get('/pedidos', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pedidos.html'));
 });
 
-// ---------- Webhook: mensajes entrantes ----------
-app.post('/webhook', async (req, res) => {
-  // Respondemos rápido a Meta para que no reintente
-  res.sendStatus(200);
+// ---------- API usada por la página web ----------
+app.post('/api/order', async (req, res) => {
+  const messages = req.body && Array.isArray(req.body.messages) ? req.body.messages : null;
+
+  if (!messages || messages.length === 0) {
+    return res.status(400).json({ error: 'Falta el mensaje del pedido.' });
+  }
 
   try {
-    const entry = req.body.entry && req.body.entry[0];
-    const change = entry && entry.changes && entry.changes[0];
-    const value = change && change.value;
-    const message = value && value.messages && value.messages[0];
-
-    if (!message || message.type !== 'text') return; // ignoramos audios/imágenes/etc por ahora
-
-    const from = message.from; // número del cliente/vendedor que escribe
-    const text = message.text.body.trim();
-
-    // Comando para arrancar un pedido nuevo sin arrastrar contexto
-    if (/^(nuevo pedido|reiniciar|reset)$/i.test(text)) {
-      conversations[from] = [];
-      saveJson(CONVERSATIONS_PATH, conversations);
-      await sendWhatsAppMessage(from, 'Listo, arrancamos un pedido nuevo. Mandame el detalle.');
-      return;
-    }
-
-    if (!conversations[from]) conversations[from] = [];
-    conversations[from].push({ role: 'user', content: text });
-
-    const { parsed, rawText } = await askClaude(conversations[from]);
-    conversations[from].push({ role: 'assistant', content: rawText });
-    saveJson(CONVERSATIONS_PATH, conversations);
+    const { parsed, rawText } = await askClaude(messages);
 
     if (parsed.estado === 'faltan_datos') {
-      await sendWhatsAppMessage(from, parsed.pregunta);
-    } else {
-      await sendWhatsAppMessage(from, buildOrderText(parsed));
-      // Dejamos el historial por si el usuario corrige algo a continuación.
+      return res.json({ estado: 'faltan_datos', pregunta: parsed.pregunta, rawText });
     }
+
+    return res.json({ estado: 'completo', pedido: parsed, texto: buildOrderText(parsed), rawText });
   } catch (err) {
-    console.error('Error procesando mensaje:', err);
+    console.error('Error en /api/order:', err);
+    return res.status(502).json({ error: 'No pudimos procesar el pedido. Probá de nuevo en unos segundos.' });
   }
 });
 
 // ---------- Endpoint de salud (para chequear que el servidor está vivo) ----------
 app.get('/', (req, res) => {
-  res.send('LYSTO WhatsApp Bot activo ✅');
+  res.redirect('/pedidos');
 });
 
 app.listen(PORT, () => {
