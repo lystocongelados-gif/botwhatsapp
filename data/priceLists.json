@@ -23,5 +23,8 @@
     "Clásicas 8x8mm": { "neto_2_5kg": 5799.60, "caja_x6": 34797.60 },
     "Crocante Premium 8x8mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 },
     "Crocante Premium trad 10x10mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 }
+  },
+  "LISTA CRAFT": {
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 7500.00, "caja_x6": 45000.00 }
   }
 }

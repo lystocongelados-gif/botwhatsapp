@@ -1,5 +1,5 @@
 [
-  { "nombre": "CRAFT SAS", "telefono": null, "email": null, "lista_precio": "Gastronomico A", "tipo_entrega": "retira_fabrica" },
+  { "nombre": "CRAFT SAS", "telefono": null, "email": null, "lista_precio": "LISTA CRAFT", "tipo_entrega": "retira_fabrica" },
   { "nombre": "Mic Bel SRL - Fernando Escalante", "telefono": "+54 9 381 588-8333", "email": null, "lista_precio": "Distribuidor", "tipo_entrega": "retira_fabrica" },
   { "nombre": "Sebastián Alejandro Andretta", "telefono": "+54 381 641-0779", "email": null, "lista_precio": "Distribuidor", "tipo_entrega": "retira_fabrica" },
   { "nombre": "TOZIR BURGUER-Santiago Agustin Ortiz", "telefono": "3815400222 - 3812143843", "email": "santiagustinortiz@gmail.com", "lista_precio": "Gastronomico C", "tipo_entrega": "flete_interno" },
