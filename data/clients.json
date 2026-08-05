@@ -46,5 +46,6 @@
   { "nombre": "SmashFactory - Luciano Di Benedetto", "telefono": "+54 381 588-7386", "email": null, "lista_precio": "Gastronomico C", "tipo_entrega": "flete_interno" },
   { "nombre": "Tienda el Pajaro Loco", "telefono": "+54 381 548-2114", "email": "Leandro_ring@hotmail.com", "lista_precio": "Gastronomico B", "tipo_entrega": "retira_fabrica" },
   { "nombre": "Andrea Del Carmen Guerra", "telefono": null, "email": null, "lista_precio": "Gastronomico C", "tipo_entrega": "retira_fabrica" },
-  { "nombre": "Jorgelina Villagan", "telefono": null, "email": null, "lista_precio": "Gastronomico C", "tipo_entrega": "retira_fabrica" }
+  { "nombre": "Jorgelina Villagan", "telefono": null, "email": null, "lista_precio": "Gastronomico C", "tipo_entrega": "retira_fabrica" },
+  { "nombre": "Doña Lili Comidas Lules - Ariel", "telefono": "+54 9 3814 67-8840", "email": null, "lista_precio": "Gastronomico B", "tipo_entrega": "retira_fabrica" }
 ]
