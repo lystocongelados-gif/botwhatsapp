@@ -1,30 +1,30 @@
 {
   "Gastronomico A": {
-    "Clásicas 8x8mm": { "neto_2_5kg": 8950.00, "caja_x6": 53700.00 },
-    "Crocante Premium 8x8mm": { "neto_2_5kg": 10350.00, "caja_x6": 62100.00 },
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 10350.00, "caja_x6": 62100.00 }
+    "Clásicas 8x8mm": { "neto_2_5kg": 9666.00, "caja_x6": 57996.00 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 11178.00, "caja_x6": 67068.00 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 11178.00, "caja_x6": 67068.00 }
   },
   "Gastronomico B": {
-    "Clásicas 8x8mm": { "neto_2_5kg": 8055.00, "caja_x6": 48330.00 },
-    "Crocante Premium 8x8mm": { "neto_2_5kg": 9315.00, "caja_x6": 55890.00 },
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 9315.00, "caja_x6": 55890.00 }
+    "Clásicas 8x8mm": { "neto_2_5kg": 8699.40, "caja_x6": 52196.40 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 10060.20, "caja_x6": 60361.20 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 10060.20, "caja_x6": 60361.20 }
   },
   "Gastronomico C": {
-    "Clásicas 8x8mm": { "neto_2_5kg": 7249.50, "caja_x6": 43497.00 },
-    "Crocante Premium 8x8mm": { "neto_2_5kg": 8383.50, "caja_x6": 50301.00 },
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 8383.50, "caja_x6": 50301.00 }
+    "Clásicas 8x8mm": { "neto_2_5kg": 7829.46, "caja_x6": 46976.76 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 9054.18, "caja_x6": 54325.08 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 9054.18, "caja_x6": 54325.08 }
   },
   "Mayorista": {
-    "Clásicas 8x8mm": { "neto_2_5kg": 6495.55, "caja_x6": 38973.31 },
-    "Crocante Premium 8x8mm": { "neto_2_5kg": 7511.62, "caja_x6": 45069.70 },
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 7511.62, "caja_x6": 45069.70 }
+    "Clásicas 8x8mm": { "neto_2_5kg": 7015.20, "caja_x6": 42091.18 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 8112.55, "caja_x6": 48675.27 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 8112.55, "caja_x6": 48675.27 }
   },
   "Distribuidor": {
-    "Clásicas 8x8mm": { "neto_2_5kg": 5799.60, "caja_x6": 34797.60 },
-    "Crocante Premium 8x8mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 },
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 6706.80, "caja_x6": 40240.80 }
+    "Clásicas 8x8mm": { "neto_2_5kg": 6263.57, "caja_x6": 37581.41 },
+    "Crocante Premium 8x8mm": { "neto_2_5kg": 7243.34, "caja_x6": 43460.06 },
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 7243.34, "caja_x6": 43460.06 }
   },
-  "LISTA CRAFT": {
-    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 7500.00, "caja_x6": 45000.00 }
+  "Craft": {
+    "Crocante Premium trad 10x10mm": { "neto_2_5kg": 8100.00, "caja_x6": 48600.00 }
   }
 }
